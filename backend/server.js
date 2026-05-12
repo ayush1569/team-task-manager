@@ -29,7 +29,7 @@ app.use((req, res) => {
 });
 
 // Database Connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://ayushpratap195_db_user:ayush123@cluster0.jy8zwdz.mongodb.net/teamtaskmanager?appName=Cluster0')
+mongoose.connect(process.env.MONGO_URI || 'mongodb://ayushpratap195_db_user:ayush123@ac-wyr4bbz-shard-00-00.jy8zwdz.mongodb.net:27017,ac-wyr4bbz-shard-00-01.jy8zwdz.mongodb.net:27017,ac-wyr4bbz-shard-00-02.jy8zwdz.mongodb.net:27017/teamtaskmanager?ssl=true&replicaSet=atlas-89igpi-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0')
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
