@@ -29,7 +29,7 @@ app.get('*', (req, res) => {
 });
 
 // Database Connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/teamtaskmanager')
+mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://ayushpratap195_db_user:ayush123@cluster0.jy8zwdz.mongodb.net/teamtaskmanager?appName=Cluster0')
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
