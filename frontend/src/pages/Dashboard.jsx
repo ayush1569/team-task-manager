@@ -10,6 +10,8 @@ const Dashboard = () => {
   const [newProjectName, setNewProjectName] = useState('');
   const [loading, setLoading] = useState(true);
 
+  const [newTask, setNewTask] = useState({ title: '', project: '', assignedTo: '', dueDate: '' });
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -18,7 +20,7 @@ const Dashboard = () => {
     try {
       const [projectsRes, tasksRes] = await Promise.all([
         axios.get('/api/projects'),
-        axios.get('/api/tasks/my') // We'll add this route to backend
+        axios.get('/api/tasks/my')
       ]);
       setProjects(projectsRes.data);
       setTasks(tasksRes.data);
@@ -39,6 +41,23 @@ const Dashboard = () => {
     } catch (err) {
       alert('Error creating project');
     }
+  };
+
+  const createTask = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('/api/tasks', newTask);
+      setNewTask({ title: '', project: '', assignedTo: '', dueDate: '' });
+      fetchData();
+      alert('Task created!');
+    } catch (err) {
+      alert('Error creating task');
+    }
+  };
+
+  const isOverdue = (dateString, status) => {
+    if (!dateString || status === 'Done') return false;
+    return new Date(dateString) < new Date();
   };
 
   if (loading) return <div className="loader">Loading Dashboard...</div>;
@@ -72,12 +91,26 @@ const Dashboard = () => {
               <div key={p._id} className="card project-card">
                 <h3>{p.name}</h3>
                 <p>{p.members.length} members</p>
-                {/* Link to project details */}
               </div>
             ))}
             {projects.length === 0 && <p>No projects found.</p>}
           </div>
         </section>
+
+        {user.role === 'Admin' && (
+          <section className="dashboard-section">
+            <h2>Create Task</h2>
+            <form onSubmit={createTask} className="create-form">
+              <input type="text" placeholder="Task Title" required value={newTask.title} onChange={e => setNewTask({...newTask, title: e.target.value})} />
+              <select required value={newTask.project} onChange={e => setNewTask({...newTask, project: e.target.value})}>
+                <option value="">Select Project...</option>
+                {projects.map(p => <option key={p._id} value={p._id}>{p.name}</option>)}
+              </select>
+              <input type="date" required value={newTask.dueDate} onChange={e => setNewTask({...newTask, dueDate: e.target.value})} />
+              <button type="submit">Create Task</button>
+            </form>
+          </section>
+        )}
 
         <section className="dashboard-section">
           <h2>My Tasks</h2>
@@ -85,7 +118,10 @@ const Dashboard = () => {
             {tasks.map(t => (
               <div key={t._id} className={`task-item status-${t.status.replace(' ', '-').toLowerCase()}`}>
                 <div className="task-info">
-                  <h4>{t.title}</h4>
+                  <h4>
+                    {t.title} 
+                    {isOverdue(t.dueDate, t.status) && <span className="overdue-badge">OVERDUE</span>}
+                  </h4>
                   <p className="task-project">{t.project?.name}</p>
                 </div>
                 <span className="status-badge">{t.status}</span>
