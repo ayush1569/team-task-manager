@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
-import './Dashboard.css';
+import '../Dashboard.css';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
