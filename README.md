@@ -1,56 +1,100 @@
-# Team Task Manager
+# 🚀 Team Task Manager (Full-Stack)
 
-A full-stack web application for creating projects, assigning tasks, and tracking progress with role-based access control (Admin/Member).
+A full-stack web application where users can create projects, assign tasks, and track progress with **role-based access control (Admin/Member)**.
 
-## Key Features
-- **Authentication**: Signup and Login functionality with JWT.
-- **Role-Based Access**: 
-  - Admins can create projects and assign tasks.
-  - Members can view projects they are part of and update their task statuses.
-- **Project & Team Management**: Group tasks by project.
-- **Task Tracking**: Create, assign, and track the status of tasks.
-- **Dashboard**: View all projects and your assigned tasks at a glance.
+## 🌐 Live Demo
+**[https://team-task-manager-production-2545.up.railway.app](https://team-task-manager-production-2545.up.railway.app)**
 
-## Tech Stack
-- **Frontend**: React (Vite), React Router, Axios, Pure CSS.
-- **Backend**: Node.js, Express.js.
-- **Database**: MongoDB with Mongoose.
+## 📁 GitHub Repository
+**[https://github.com/ayush1569/team-task-manager](https://github.com/ayush1569/team-task-manager)**
 
-## Local Setup
+---
+
+## 🎯 Key Features
+
+- ✅ **Authentication** — Secure Signup & Login with JWT tokens and bcrypt password hashing
+- ✅ **Role-Based Access Control** — Admins and Members have different permissions
+  - **Admin**: Can create projects, create tasks, assign tasks to members
+  - **Member**: Can view their assigned tasks and update their status
+- ✅ **Project & Team Management** — Create and manage multiple projects
+- ✅ **Task Creation & Assignment** — Create tasks with title, due date, and project
+- ✅ **Status Tracking** — Tasks have statuses: `To Do`, `In Progress`, `Done`
+- ✅ **Dashboard** — See all projects and assigned tasks in one place
+- ✅ **Overdue Indicators** — Tasks past their due date show a red **OVERDUE** badge automatically
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | React (Vite), React Router, Axios, Pure CSS |
+| **Backend** | Node.js, Express.js |
+| **Database** | MongoDB Atlas (NoSQL) with Mongoose |
+| **Auth** | JWT (JSON Web Tokens) + bcryptjs |
+| **Deployment** | Railway |
+
+---
+
+## ⚙️ Requirements Fulfilled
+
+- ✅ REST APIs with proper routes
+- ✅ NoSQL Database (MongoDB) with relationships
+- ✅ Proper validations on all inputs
+- ✅ Role-based access control enforced on backend
+- ✅ Deployed and live on Railway
+
+---
+
+## 🚀 Local Setup
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd "Team Task Manager"
+   git clone https://github.com/ayush1569/team-task-manager.git
+   cd team-task-manager
    ```
 
-2. **Backend Setup**
+2. **Install all dependencies**
    ```bash
-   cd backend
-   npm install
-   ```
-   Create a `.env` file in the `backend` folder and add:
-   ```env
-   MONGO_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   PORT=5000
-   ```
-
-3. **Frontend Setup**
-   ```bash
-   cd frontend
    npm install
    ```
 
-4. **Run Locally**
-   Start backend (from `backend` folder): `npm run dev`
-   Start frontend (from `frontend` folder): `npm run dev`
+3. **Run locally**
+   ```bash
+   npm start
+   ```
 
-## Deployment (Railway)
-This project is configured to be easily deployed on Railway as a single service.
+4. Open **[http://localhost:5000](http://localhost:5000)** in your browser.
 
-1. Push your code to a GitHub repository.
-2. In Railway, create a new project and select **Deploy from GitHub repo**.
-3. Railway will automatically detect the root `package.json`.
-4. Make sure to add `MONGO_URI` and `JWT_SECRET` in the Railway environment variables.
-5. Railway will automatically run the `postinstall`, `build`, and `start` scripts defined in the root `package.json`, which builds the frontend and serves it via the backend Express server.
+---
+
+## 📦 Deployment (Railway)
+
+This project is fully configured for one-click Railway deployment.
+
+1. Push code to GitHub.
+2. Go to [Railway.app](https://railway.app/) → **New Project** → **Deploy from GitHub repo**.
+3. Select `team-task-manager` repository.
+4. Railway auto-detects scripts and builds the full app.
+5. Click **Generate Domain** to get a live URL.
+
+---
+
+## 📂 Project Structure
+
+```
+team-task-manager/
+├── backend/
+│   ├── models/         # Mongoose models (User, Project, Task)
+│   ├── routes/         # Express API routes
+│   ├── middleware/      # JWT auth middleware
+│   └── server.js       # Main Express server
+├── frontend/
+│   ├── src/
+│   │   ├── pages/      # Login, Register, Dashboard
+│   │   ├── context/    # Auth context
+│   │   └── App.jsx
+│   └── vite.config.js
+├── package.json        # Root build scripts for Railway
+└── README.md
+```
