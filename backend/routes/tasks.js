@@ -49,14 +49,19 @@ router.post('/', auth, async (req, res) => {
       return res.status(403).json({ message: 'Not authorized' });
     }
 
-    const newTask = new Task({
+    const taskData = {
       title,
       description,
       status,
       project,
-      assignedTo,
       dueDate
-    });
+    };
+    
+    if (assignedTo) {
+      taskData.assignedTo = assignedTo;
+    }
+
+    const newTask = new Task(taskData);
 
     const task = await newTask.save();
     res.json(task);
