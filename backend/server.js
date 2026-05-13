@@ -24,7 +24,11 @@ const path = require('path');
 // Serve frontend
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-app.use((req, res) => {
+// Only serve frontend for non-API routes (SPA fallback)
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ message: 'API route not found' });
+  }
   res.sendFile(path.resolve(__dirname, '../frontend/dist', 'index.html'));
 });
 
