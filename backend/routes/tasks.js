@@ -21,7 +21,7 @@ router.get('/project/:projectId', auth, async (req, res) => {
     res.json(tasks);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server Error');
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
@@ -32,7 +32,7 @@ router.get('/my', auth, async (req, res) => {
         res.json(tasks);
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server Error' });
     }
 });
 
@@ -67,7 +67,7 @@ router.post('/', auth, async (req, res) => {
     res.json(task);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server Error');
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
@@ -90,7 +90,7 @@ router.put('/:id', auth, async (req, res) => {
     res.json(task);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server Error');
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 

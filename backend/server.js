@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 
 dotenv.config();
 
@@ -20,7 +21,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 
-const path = require('path');
 // Serve frontend
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
@@ -32,10 +32,24 @@ app.use((req, res, next) => {
   res.sendFile(path.resolve(__dirname, '../frontend/dist', 'index.html'));
 });
 
-// Database Connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://ayushpratap195_db_user:ayush123@ac-wyr4bbz-shard-00-00.jy8zwdz.mongodb.net:27017,ac-wyr4bbz-shard-00-01.jy8zwdz.mongodb.net:27017,ac-wyr4bbz-shard-00-02.jy8zwdz.mongodb.net:27017/teamtaskmanager?ssl=true&replicaSet=atlas-89igpi-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0')
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+// Global error handler (important for Express 5)
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({ message: 'Internal server error' });
+});
+
+// Database Connection — connect FIRST, then start server
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://ayushpratap195_db_user:ayush123@ac-wyr4bbz-shard-00-00.jy8zwdz.mongodb.net:27017,ac-wyr4bbz-shard-00-01.jy8zwdz.mongodb.net:27017,ac-wyr4bbz-shard-00-02.jy8zwdz.mongodb.net:27017/teamtaskmanager?ssl=true&replicaSet=atlas-89igpi-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0';
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+mongoose.connect(MONGO_URI)
+  .then(() => {
+    console.log('MongoDB connected');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    // Start server anyway so Railway doesn't keep restarting
+    app.listen(PORT, () => console.log(`Server running on port ${PORT} (DB disconnected)`));
+  });
