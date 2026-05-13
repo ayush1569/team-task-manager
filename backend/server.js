@@ -39,7 +39,7 @@ app.use((err, req, res, next) => {
 });
 
 // Database Connection — connect FIRST, then start server
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://ayushpratap195_db_user:ayush123@ac-wyr4bbz-shard-00-00.jy8zwdz.mongodb.net:27017,ac-wyr4bbz-shard-00-01.jy8zwdz.mongodb.net:27017,ac-wyr4bbz-shard-00-02.jy8zwdz.mongodb.net:27017/teamtaskmanager?ssl=true&replicaSet=atlas-89igpi-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://ayushpratap195_db_user:ayush123@cluster0.jy8zwdz.mongodb.net/teamtaskmanager?retryWrites=true&w=majority&appName=Cluster0';
 
 const PORT = process.env.PORT || 5000;
 
